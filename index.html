@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foodie | Modern Restaurant</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍽️</text></svg>">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="#" class="logo">Foodie<span>.</span></a>
+            <div class="nav-toggle" id="navToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#contact">Order</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Welcome to <span>Foodie</span></h1>
+                <p class="hero-tagline">Experience culinary excellence with our modern fusion cuisine</p>
+                <p class="hero-description">Where traditional flavors meet contemporary presentation</p>
+                <a href="#menu" class="btn-primary">View Our Menu</a>
+            </div>
+            <div class="hero-image">
+                <div class="food-image"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <h2 class="section-title">Our Story</h2>
+            <div class="about-content">
+                <div class="about-image">
+                    <div class="about-img-placeholder"></div>
+                </div>
+                <div class="about-text">
+                    <h3>Crafting Memorable Dining Experiences Since 2010</h3>
+                    <p>At Foodie, we believe that great food brings people together. Our chefs combine traditional recipes with innovative techniques to create dishes that excite the senses and warm the soul.</p>
+                    <p>We source our ingredients locally whenever possible, supporting our community while ensuring the freshest, highest quality meals for our guests. Every dish tells a story of passion, quality, and dedication.</p>
+                    <div class="about-features">
+                        <div class="feature">
+                            <i class="fas fa-leaf"></i>
+                            <span>Fresh Ingredients</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-utensils"></i>
+                            <span>Expert Chefs</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-wine-glass-alt"></i>
+                            <span>Curated Selection</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+<section class="menu" id="menu">
+    <div class="container">
+        <h2 class="section-title">Our Signature Dishes</h2>
+        <p class="section-subtitle">A selection of our most loved Indian specialties</p>
+        <div class="menu-grid">
+
+            <div class="menu-item">
+                <div class="menu-img" style="background-color: #f4a261;"></div>
+                <div class="menu-content">
+                    <h3>Butter Chicken</h3>
+                    <p>Slow-cooked chicken in a rich, creamy tomato gravy served with butter naan</p>
+                    <div class="menu-price">₹320</div>
+                </div>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-img" style="background-color: #e76f51;"></div>
+                <div class="menu-content">
+                    <h3>Paneer Tikka Masala</h3>
+                    <p>Grilled cottage cheese cubes cooked in a spicy onion-tomato gravy</p>
+                    <div class="menu-price">₹280</div>
+                </div>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-img" style="background-color: #d62828;"></div>
+                <div class="menu-content">
+                    <h3>Hyderabadi Chicken Biryani</h3>
+                    <p>Fragrant basmati rice layered with spiced chicken and slow-dum cooked</p>
+                    <div class="menu-price">₹350</div>
+                </div>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-img" style="background-color: #fcbf49;"></div>
+                <div class="menu-content">
+                    <h3>Dal Makhani</h3>
+                    <p>Slow-cooked black lentils simmered in butter and cream</p>
+                    <div class="menu-price">₹220</div>
+                </div>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-img" style="background-color: #90be6d;"></div>
+                <div class="menu-content">
+                    <h3>Masala Dosa</h3>
+                    <p>Crispy fermented rice crepe filled with spiced potato masala</p>
+                    <div class="menu-price">₹180</div>
+                </div>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-img" style="background-color: #577590;"></div>
+                <div class="menu-content">
+                    <h3>Gulab Jamun</h3>
+                    <p>Soft milk-solid dumplings soaked in rose-flavored sugar syrup</p>
+                    <div class="menu-price">₹120</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+    <!-- Contact / Order Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 class="section-title">Place Your Order</h2>
+            <p class="section-subtitle">Fill out the form below and we'll redirect you to WhatsApp to confirm your order</p>
+            
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Contact Information</h3>
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Address</h4>
+                            <p>123 Gourmet Street, Foodie City</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h4>Opening Hours</h4>
+                            <p>Mon-Thu: 11am-10pm</p>
+                            <p>Fri-Sun: 11am-11pm</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Phone Number for Orders</h4>
+                            <p>+1 (816) 908-5572</p>
+                        </div>
+                    </div>
+                    <div class="whatsapp-info">
+                        <i class="fab fa-whatsapp"></i>
+                        <div>
+                            <h4>How Ordering Works</h4>
+                            <p>After submitting the form, you'll be redirected to WhatsApp where you can review and manually send your order details.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <form id="orderForm">
+                        <div class="form-group">
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="name" placeholder="Your name" required>
+                            <div class="error-message" id="nameError"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" placeholder="Your phone number" required>
+                            <div class="error-message" id="phoneError"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="order">Order Details / Message *</label>
+                            <textarea id="order" rows="5" placeholder="Please describe your order in detail, including items, quantities, and any special requests" required></textarea>
+                            <div class="error-message" id="orderError"></div>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary">
+                            <i class="fab fa-whatsapp"></i> Continue to WhatsApp
+                        </button>
+                        
+                        <p class="form-note">
+                            <i class="fas fa-info-circle"></i> You'll be redirected to WhatsApp where you can review before sending
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="#" class="logo">Foodie<span>.</span></a>
+                    <p>Culinary excellence in every bite</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#menu">Menu</a></li>
+                        <li><a href="#contact">Order</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact">
+                    <h4>Contact</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Gourmet Street, Foodie City</p>
+                    <p><i class="fas fa-phone"></i> +1 (816) 908-5572</p>
+                    <p><i class="fas fa-envelope"></i> info@foodie-demo.com</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; <span id="currentYear"></span> Foodie Restaurant. All rights reserved.</p>
+                <p class="portfolio-notice">
+                    <i class="fas fa-code"></i> Project created for portfolio demonstration purposes. Orders are redirected to WhatsApp for manual confirmation.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
