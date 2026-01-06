@@ -3,6 +3,20 @@ const navToggle = document.getElementById('navToggle');
 const navMenu = document.getElementById('navMenu');
 const orderForm = document.getElementById('orderForm');
 const currentYearElement = document.getElementById('currentYear');
+const isReservationCheckbox = document.getElementById('isReservation');
+
+// Set minimum date to today
+const dateInput = document.getElementById('date');
+const today = new Date().toISOString().split('T')[0];
+dateInput.min = today;
+
+// Set default time to next hour
+const timeInput = document.getElementById('time');
+const nextHour = new Date();
+nextHour.setHours(nextHour.getHours() + 1);
+const hours = nextHour.getHours().toString().padStart(2, '0');
+const minutes = nextHour.getMinutes().toString().padStart(2, '0');
+timeInput.value = `${hours}:${minutes}`;
 
 // Mobile Navigation Toggle
 navToggle.addEventListener('click', () => {
@@ -23,7 +37,7 @@ document.querySelectorAll('.nav-menu a').forEach(link => {
 // Set current year in footer
 currentYearElement.textContent = new Date().getFullYear();
 
-// Form Validation and WhatsApp Redirection
+// Form Validation and SMS Redirection
 orderForm.addEventListener('submit', function(e) {
     e.preventDefault();
     
@@ -33,7 +47,11 @@ orderForm.addEventListener('submit', function(e) {
     // Get form values
     const name = document.getElementById('name').value.trim();
     const phone = document.getElementById('phone').value.trim();
+    const date = document.getElementById('date').value;
+    const time = document.getElementById('time').value;
+    const guests = document.getElementById('guests').value;
     const order = document.getElementById('order').value.trim();
+    const isReservation = document.getElementById('isReservation').checked;
     
     // Validation flags
     let isValid = true;
@@ -59,18 +77,48 @@ orderForm.addEventListener('submit', function(e) {
         isValid = false;
     }
     
-    // Validate order details
-    if (!order) {
-        showError('orderError', 'Please enter your order details');
+    // Validate date
+    if (!date) {
+        showError('dateError', 'Please select a date');
         isValid = false;
-    } else if (order.length < 10) {
-        showError('orderError', 'Please provide more details about your order');
+    } else {
+        const selectedDate = new Date(date);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
+        if (selectedDate < today) {
+            showError('dateError', 'Date cannot be in the past');
+            isValid = false;
+        }
+    }
+    
+    // Validate time
+    if (!time) {
+        showError('timeError', 'Please select a time');
         isValid = false;
     }
     
-    // If form is valid, redirect to WhatsApp
+    // Validate guests
+    if (!guests) {
+        showError('guestsError', 'Please select number of guests');
+        isValid = false;
+    } else if (parseInt(guests) < 1) {
+        showError('guestsError', 'Number of guests must be at least 1');
+        isValid = false;
+    }
+    
+    // Validate order details
+    if (!order) {
+        showError('orderError', 'Please enter your order details or reservation notes');
+        isValid = false;
+    } else if (order.length < 10) {
+        showError('orderError', 'Please provide more details');
+        isValid = false;
+    }
+    
+    // If form is valid, redirect to SMS
     if (isValid) {
-        redirectToWhatsApp(name, cleanPhone, order);
+        redirectToSMS(name, cleanPhone, date, time, guests, order, isReservation);
     }
 });
 
@@ -83,8 +131,10 @@ function showError(elementId, message) {
     // Highlight the input field with error
     const inputId = elementId.replace('Error', '');
     const inputElement = document.getElementById(inputId);
-    inputElement.style.borderColor = '#ff4757';
-    inputElement.style.boxShadow = '0 0 0 3px rgba(255, 71, 87, 0.2)';
+    if (inputElement) {
+        inputElement.style.borderColor = '#ff4757';
+        inputElement.style.boxShadow = '0 0 0 3px rgba(255, 71, 87, 0.2)';
+    }
 }
 
 // Helper function to clear all error messages
@@ -96,39 +146,85 @@ function clearErrors() {
     });
     
     // Reset input styles
-    const inputElements = document.querySelectorAll('#orderForm input, #orderForm textarea');
+    const inputElements = document.querySelectorAll('#orderForm input, #orderForm textarea, #orderForm select');
     inputElements.forEach(element => {
         element.style.borderColor = '#ddd';
         element.style.boxShadow = 'none';
     });
 }
 
-// Function to redirect to WhatsApp with pre-filled message
-function redirectToWhatsApp(name, phone, order) {
-    // The phone number for WhatsApp (without country code if included)
-    // The provided number is: 8169085572
-    const whatsappNumber = '8169085572';
+// Function to format date to readable format
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+}
+
+// Function to format time to readable format
+function formatTime(timeString) {
+    const [hours, minutes] = timeString.split(':');
+    const hour = parseInt(hours);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    const formattedHour = hour % 12 || 12;
+    return `${formattedHour}:${minutes} ${ampm}`;
+}
+
+// Function to redirect to SMS with pre-filled message
+function redirectToSMS(name, phone, date, time, guests, order, isReservation) {
+    // The phone number for SMS
+    const smsNumber = '8169085572';
     
-    // Construct the message with proper formatting
-    const message = `Hello Foodie Restaurant!%0A%0A*Order Details*%0A%0A*Name:* ${encodeURIComponent(name)}%0A*Phone:* ${encodeURIComponent(phone)}%0A*Order Details:* ${encodeURIComponent(order)}%0A%0APlease confirm my order.`;
+    // Format date and time
+    const formattedDate = formatDate(date);
+    const formattedTime = formatTime(time);
     
-    // Create the WhatsApp URL with the wa.me link
-    const whatsappURL = `https://wa.me/${whatsappNumber}?text=${message}`;
+    // Construct the message based on whether it's a reservation or order
+    let messageType = isReservation ? 'Table Reservation' : 'Food Order';
+    
+    const message = `Hello Foodie Restaurant!%0A%0A*${messageType} Request*%0A%0A*Name:* ${encodeURIComponent(name)}%0A*Phone:* ${encodeURIComponent(phone)}%0A*Date:* ${encodeURIComponent(formattedDate)}%0A*Time:* ${encodeURIComponent(formattedTime)}%0A*Guests:* ${encodeURIComponent(guests)} ${guests === '1' ? 'person' : 'people'}%0A*Details:* ${encodeURIComponent(order)}%0A%0APlease confirm my ${isReservation ? 'reservation' : 'order'}.`;
+    
+    // Create the SMS URL
+    // Using sms: protocol which works on most mobile devices
+    const smsURL = `sms:${smsNumber}?body=${message}`;
     
     // Show a confirmation message to the user
-    showSubmissionMessage();
+    showSubmissionMessage(isReservation);
     
-    // Redirect to WhatsApp after a short delay
+    // Redirect to SMS app after a short delay
     setTimeout(() => {
-        window.open(whatsappURL, '_blank');
+        // For iOS devices, we need a different approach
+        if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+            // iOS requires a slightly different approach
+            window.location.href = smsURL;
+        } else {
+            // For Android and other devices
+            window.open(smsURL, '_blank');
+        }
         
         // Reset the form after successful submission
         orderForm.reset();
+        
+        // Reset date to today and time to next hour
+        dateInput.value = today;
+        const nextHour = new Date();
+        nextHour.setHours(nextHour.getHours() + 1);
+        const hours = nextHour.getHours().toString().padStart(2, '0');
+        const minutes = nextHour.getMinutes().toString().padStart(2, '0');
+        timeInput.value = `${hours}:${minutes}`;
+        
+        // Uncheck the reservation checkbox
+        isReservationCheckbox.checked = false;
+        
+        // Reset the textarea placeholder
+        const orderTextarea = document.getElementById('order');
+        orderTextarea.placeholder = 'Please describe your order in detail, including items, quantities, and any special requests or dietary restrictions';
     }, 1500);
 }
 
 // Function to show a submission confirmation message
-function showSubmissionMessage() {
+function showSubmissionMessage(isReservation) {
+    const messageType = isReservation ? 'reservation' : 'order';
+    
     // Create a message element
     const messageElement = document.createElement('div');
     messageElement.innerHTML = `
@@ -136,7 +232,7 @@ function showSubmissionMessage() {
             position: fixed;
             top: 20px;
             right: 20px;
-            background-color: #25D366;
+            background-color: #34a853;
             color: white;
             padding: 15px 25px;
             border-radius: 10px;
@@ -146,10 +242,10 @@ function showSubmissionMessage() {
             align-items: center;
             animation: slideIn 0.5s ease;
         ">
-            <i class="fab fa-whatsapp" style="font-size: 1.5rem; margin-right: 10px;"></i>
+            <i class="fas fa-sms" style="font-size: 1.5rem; margin-right: 10px;"></i>
             <div>
-                <strong>Redirecting to WhatsApp...</strong>
-                <p style="margin: 5px 0 0; font-size: 0.9rem;">You'll be able to review before sending</p>
+                <strong>Redirecting to SMS...</strong>
+                <p style="margin: 5px 0 0; font-size: 0.9rem;">Your ${messageType} details are pre-filled. Review before sending.</p>
             </div>
         </div>
     `;
@@ -175,18 +271,32 @@ function showSubmissionMessage() {
 }
 
 // Add input event listeners to clear errors when user starts typing
-document.querySelectorAll('#orderForm input, #orderForm textarea').forEach(input => {
+document.querySelectorAll('#orderForm input, #orderForm textarea, #orderForm select').forEach(input => {
     input.addEventListener('input', function() {
         const errorId = this.id + 'Error';
         const errorElement = document.getElementById(errorId);
         
-        if (errorElement.textContent) {
+        if (errorElement && errorElement.textContent) {
             errorElement.textContent = '';
             errorElement.style.display = 'none';
             this.style.borderColor = '#ddd';
             this.style.boxShadow = 'none';
         }
     });
+});
+
+// Add change event listener for the reservation checkbox
+isReservationCheckbox.addEventListener('change', function() {
+    const orderTextarea = document.getElementById('order');
+    const orderLabel = document.querySelector('label[for="order"]');
+    
+    if (this.checked) {
+        orderLabel.textContent = 'Reservation Notes / Special Requests *';
+        orderTextarea.placeholder = 'Please provide any special requests, occasion details, or notes for your reservation';
+    } else {
+        orderLabel.textContent = 'Order Details / Message *';
+        orderTextarea.placeholder = 'Please describe your order in detail, including items, quantities, and any special requests or dietary restrictions';
+    }
 });
 
 // Add smooth scrolling for anchor links
@@ -206,4 +316,12 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             });
         }
     });
+});
+
+// Update the footer text to reflect SMS instead of WhatsApp
+document.addEventListener('DOMContentLoaded', function() {
+    const portfolioNotice = document.querySelector('.portfolio-notice');
+    if (portfolioNotice) {
+        portfolioNotice.textContent = "Project created for portfolio demonstration purposes. Orders/reservations are redirected to SMS for manual confirmation.";
+    }
 });
