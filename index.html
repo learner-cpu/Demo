@@ -141,8 +141,8 @@
     <!-- Contact / Order Section -->
     <section class="contact" id="contact">
         <div class="container">
-            <h2 class="section-title">Place Your Order</h2>
-            <p class="section-subtitle">Fill out the form below and we'll redirect you to WhatsApp to confirm your order</p>
+            <h2 class="section-title">Place Your Order / Reservation</h2>
+            <p class="section-subtitle">Fill out the form below and we'll redirect you to SMS to confirm your order/reservation</p>
             
             <div class="contact-container">
                 <div class="contact-info">
@@ -169,11 +169,11 @@
                             <p>+1 (816) 908-5572</p>
                         </div>
                     </div>
-                    <div class="whatsapp-info">
-                        <i class="fab fa-whatsapp"></i>
+                    <div class="sms-info">
+                        <i class="fas fa-sms"></i>
                         <div>
                             <h4>How Ordering Works</h4>
-                            <p>After submitting the form, you'll be redirected to WhatsApp where you can review and manually send your order details.</p>
+                            <p>After submitting the form, you'll be redirected to your SMS app with a pre-filled message. You can review and manually send it.</p>
                         </div>
                     </div>
                 </div>
@@ -192,25 +192,62 @@
                             <div class="error-message" id="phoneError"></div>
                         </div>
                         
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="date">Preferred Date *</label>
+                                <input type="date" id="date" required>
+                                <div class="error-message" id="dateError"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="time">Preferred Time *</label>
+                                <input type="time" id="time" required>
+                                <div class="error-message" id="timeError"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="guests">Number of Guests *</label>
+                            <select id="guests" required>
+                                <option value="">Select number of guests</option>
+                                <option value="1">1 person</option>
+                                <option value="2">2 people</option>
+                                <option value="3">3 people</option>
+                                <option value="4">4 people</option>
+                                <option value="5">5 people</option>
+                                <option value="6">6 people</option>
+                                <option value="7">7 people</option>
+                                <option value="8">8 people</option>
+                                <option value="9">9+ people</option>
+                            </select>
+                            <div class="error-message" id="guestsError"></div>
+                        </div>
+                        
                         <div class="form-group">
                             <label for="order">Order Details / Message *</label>
-                            <textarea id="order" rows="5" placeholder="Please describe your order in detail, including items, quantities, and any special requests" required></textarea>
+                            <textarea id="order" rows="5" placeholder="Please describe your order in detail, including items, quantities, and any special requests or dietary restrictions" required></textarea>
                             <div class="error-message" id="orderError"></div>
                         </div>
                         
+                        <div class="form-options">
+                            <div class="form-checkbox">
+                                <input type="checkbox" id="isReservation">
+                                <label for="isReservation">This is a table reservation (not food order)</label>
+                            </div>
+                        </div>
+                        
                         <button type="submit" class="btn-primary">
-                            <i class="fab fa-whatsapp"></i> Continue to WhatsApp
+                            <i class="fas fa-sms"></i> Continue to SMS
                         </button>
                         
                         <p class="form-note">
-                            <i class="fas fa-info-circle"></i> You'll be redirected to WhatsApp where you can review before sending
+                            <i class="fas fa-info-circle"></i> You'll be redirected to your SMS app where you can review before sending
                         </p>
                     </form>
                 </div>
             </div>
         </div>
     </section>
-
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -254,4 +291,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>
